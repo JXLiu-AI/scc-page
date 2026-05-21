@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="description"
         content="SCC is a training-free test-time defense that restores adversarial robustness of CLIP-style vision-language models via semantic and spatial consistency.">
-  <meta name="keywords" content="SCC, Self-Calibrated Consistency, Adversarial Robustness, CLIP, Vision-Language Models, Test-time Defense, ICML 2026">
+  <meta name="keywords" content="SCC, Self-Calibrated Consistency, Adversarial Robustness, CLIP, BiomedCLIP, Vision-Language Models, Test-time Defense, ICML 2026">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>SCC: Self-Calibrated Consistency for Adversarial Robustness in VLMs</title>
 
@@ -25,6 +25,13 @@
   <script src="./static/js/bulma-carousel.min.js"></script>
   <script src="./static/js/bulma-slider.min.js"></script>
   <script src="./static/js/index.js"></script>
+
+  <style>
+    .gain  { color: #1f7a1f; font-weight: 600; }
+    .drop  { color: #b03a2e; font-weight: 600; }
+    .best  { font-weight: 700; }
+    table.compact td, table.compact th { padding: 0.35em 0.6em; font-size: 0.92em; }
+  </style>
 </head>
 <body>
 
@@ -49,7 +56,6 @@
 
           <div class="column has-text-centered">
             <div class="publication-links">
-              <!-- arXiv -->
               <span class="link-block">
                 <a href="https://arxiv.org/abs/2510.22785"
                    class="external-link button is-normal is-rounded is-dark">
@@ -57,7 +63,6 @@
                   <span>arXiv</span>
                 </a>
               </span>
-              <!-- PDF -->
               <span class="link-block">
                 <a href="https://arxiv.org/pdf/2510.22785"
                    class="external-link button is-normal is-rounded is-dark">
@@ -65,7 +70,6 @@
                   <span>Paper</span>
                 </a>
               </span>
-              <!-- Code -->
               <span class="link-block">
                 <a href="https://github.com/JXLiu-AI/SCC"
                    class="external-link button is-normal is-rounded is-dark">
@@ -73,7 +77,6 @@
                   <span>Code (coming soon)</span>
                 </a>
               </span>
-              <!-- BibTeX (anchor) -->
               <span class="link-block">
                 <a href="#BibTeX"
                    class="external-link button is-normal is-rounded is-dark">
@@ -93,9 +96,9 @@
 <section class="hero teaser">
   <div class="container is-max-desktop">
     <div class="hero-body">
-      <img src="./static/images/fig1.png" alt="SCC teaser: counterattack drift and SCC recovery" style="width: 100%; max-width: 720px; margin: 0 auto; display: block;"/>
+      <img src="./static/images/fig1.png" alt="SCC teaser: counterattack drift and SCC recovery" style="width: 100%; max-width: 760px; margin: 0 auto; display: block;"/>
       <h2 class="subtitle has-text-centered" style="margin-top: 1rem;">
-        <span class="dnerf">During counterattack, embeddings drift within the adversarial space and fall into hard-negative traps. <b>SCC</b> leverages cross-modal semantic and spatial consistency to push them away from hard samples and back toward the correct class space.
+        During counterattack, embeddings drift within the adversarial space and fall into hard-negative traps. <b>SCC</b> leverages cross-modal <b>semantic</b> and <b>spatial</b> consistency to push them away from hard samples and back toward the correct class space.
       </h2>
     </div>
   </div>
@@ -129,8 +132,8 @@
     <h2 class="title is-3 has-text-centered">Method overview</h2>
     <div class="columns is-centered">
       <div class="column">
-        <img src="./static/images/method.png" alt="SCC method comparison with R-TPT and TTC" style="width: 100%; max-width: 980px; margin: 0 auto; display: block;"/>
-        <p class="has-text-centered" style="margin-top: 0.6rem; color:#666;">
+        <img src="./static/images/method.png" alt="SCC method comparison with R-TPT and TTC" style="width: 100%; max-width: 1000px; margin: 0 auto; display: block;"/>
+        <p class="has-text-centered" style="margin-top: 0.6rem; color:#666; font-size: 0.95em;">
           Test-time defense paradigms on CLIP. (a) R-TPT adapts text prompts online but still suffers from adversarial perturbations. (b) TTC repairs adversarial inputs but remains sensitive to view variance and hard negatives. (c) SCC enforces semantic and spatial consistency, yielding more stable recovery.
         </p>
       </div>
@@ -140,7 +143,9 @@
       <div class="column is-half">
         <h3 class="title is-5">Semantic consistency</h3>
         <p>
-          A short counterattack warm-up produces a soft pseudo-label <span style="font-family: serif;"><i>t</i><sub>soft</sub> = &sum;<sub>k</sub> p<sub>k</sub> t<sub>k</sub></span> that retains the full prediction distribution. A confidence-weighted cross-modal alignment term then pulls the embedding back toward the correct class space and suppresses hard-negative drift.
+          A short counterattack warm-up produces a soft pseudo-label
+          <span style="font-family: serif;"><i>t</i><sub>soft</sub> = &sum;<sub>k</sub> p<sub>k</sub> t<sub>k</sub></span>
+          that retains the full prediction distribution. A confidence-weighted cross-modal alignment term then pulls the embedding back toward the correct class space and suppresses hard-negative drift.
         </p>
       </div>
       <div class="column is-half">
@@ -154,49 +159,145 @@
 </section>
 
 
+<!-- =============================================================
+     MAIN RESULTS — Table 1 from the paper
+     ============================================================= -->
 <section class="section">
   <div class="container is-max-desktop">
-    <h2 class="title is-3 has-text-centered">Highlights</h2>
-    <div class="content">
-      <ul>
-        <li><b>Training-free, plug-and-play.</b> SCC is a pure test-time defense — no adversarial fine-tuning, no labelled data, no model surgery.</li>
-        <li><b>Large robustness gains under PGD-10.</b> On CIFAR-10 with the published configuration, SCC lifts adversarial accuracy from <b>39.19%</b> to <b>59.37%</b> (+20.18 pp) while clean accuracy stays at 82.10%.</li>
-        <li><b>Consistent improvement across 22 benchmarks.</b> SCC outperforms prior test-time defenses (R-TPT, TTC) across PGD, CW and AutoAttack, both on stock CLIP and adversarially fine-tuned variants (TeCoA, FARE).</li>
-        <li><b>Generalises beyond CLIP.</b> Drop-in integration with <b>BiomedCLIP</b> yields strong robustness on medical VQA (VQA-RAD, SLAKE) and cross-modal retrieval (Flickr30k).</li>
-        <li><b>Negligible overhead.</b> ~0.013 s / image — within 10% of TTC's runtime cost.</li>
-      </ul>
+    <h2 class="title is-3 has-text-centered">Main results (Table 1)</h2>
+    <p class="has-text-centered" style="color:#666; margin-bottom: 1rem;">
+      Classification accuracy (<b>Acc.</b>) and adversarial accuracy (<b>Rob.</b>) under PGD-10 attack
+      (<span style="font-family: serif;">&epsilon;<sub>a</sub> = 1/255</span>) across <b>16 datasets</b>.
+      SCC is a pure test-time defense — no adversarial fine-tuning, no labels.
+      <br><span style="color:#1f7a1f;">Δ</span> = improvement over vanilla CLIP.
+    </p>
+
+    <div style="overflow-x: auto;">
+    <table class="table is-striped is-hoverable is-fullwidth compact has-text-centered">
+      <thead>
+        <tr>
+          <th rowspan="2">Dataset</th>
+          <th rowspan="2">Metric</th>
+          <th>CLIP</th>
+          <th colspan="4">Adversarial Finetuning</th>
+          <th colspan="6">Test-time Defense</th>
+          <th rowspan="2">Δ</th>
+        </tr>
+        <tr>
+          <th>—</th>
+          <th>CLIP-FT</th><th>TeCoA</th><th>PMG-AFT</th><th>FARE</th>
+          <th>RN</th><th>Anti-adv</th><th>HD</th><th>TTC</th><th>DOC</th>
+          <th>SCC (ours)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td rowspan="2">CIFAR-10</td><td>Rob.</td><td>0.74</td><td>3.34</td><td>33.61</td><td>40.66</td><td>19.65</td><td>2.01</td><td>12.39</td><td>17.22</td><td>28.75</td><td>47.78</td><td class="best">59.18</td><td class="gain">+58.44</td></tr>
+        <tr><td>Acc.</td><td>85.12</td><td>84.90</td><td>64.61</td><td>70.69</td><td>74.44</td><td>81.18</td><td>83.52</td><td>78.23</td><td>81.18</td><td>81.99</td><td>82.24</td><td class="drop">-2.88</td></tr>
+        <tr><td rowspan="2">STL-10</td><td>Rob.</td><td>11.00</td><td>12.73</td><td>70.08</td><td>73.08</td><td>59.06</td><td>16.23</td><td>37.42</td><td>39.02</td><td>76.70</td><td>86.33</td><td class="best">90.50</td><td class="gain">+79.50</td></tr>
+        <tr><td>Acc.</td><td>96.40</td><td>94.49</td><td>87.40</td><td>88.56</td><td>91.72</td><td>95.85</td><td>95.45</td><td>89.50</td><td>95.85</td><td>96.04</td><td>95.62</td><td class="drop">-0.78</td></tr>
+        <tr><td rowspan="2">ImageNet</td><td>Rob.</td><td>1.15</td><td>0.93</td><td>18.89</td><td>21.43</td><td>14.00</td><td>1.77</td><td>8.67</td><td>6.63</td><td>38.41</td><td>43.72</td><td class="best">49.77</td><td class="gain">+48.62</td></tr>
+        <tr><td>Acc.</td><td>59.69</td><td>54.24</td><td>34.89</td><td>36.12</td><td>48.79</td><td>59.34</td><td>54.27</td><td>54.54</td><td>49.39</td><td>46.46</td><td>56.03</td><td class="drop">-3.66</td></tr>
+        <tr><td rowspan="2">OxfordPets</td><td>Rob.</td><td>1.04</td><td>2.10</td><td>38.35</td><td>41.18</td><td>31.07</td><td>1.86</td><td>20.42</td><td>12.04</td><td>57.87</td><td>67.18</td><td class="best">76.67</td><td class="gain">+75.63</td></tr>
+        <tr><td>Acc.</td><td>87.44</td><td>84.14</td><td>62.12</td><td>65.88</td><td>79.37</td><td>87.41</td><td>80.62</td><td>80.91</td><td>83.35</td><td>81.36</td><td>86.48</td><td class="drop">-0.96</td></tr>
+        <tr><td rowspan="2">Caltech256</td><td>Rob.</td><td>8.47</td><td>6.76</td><td>43.19</td><td>45.91</td><td>38.79</td><td>11.33</td><td>25.36</td><td>23.48</td><td>60.11</td><td>65.93</td><td class="best">72.88</td><td class="gain">+64.41</td></tr>
+        <tr><td>Acc.</td><td>81.72</td><td>78.53</td><td>61.14</td><td>62.24</td><td>73.32</td><td>81.25</td><td>79.38</td><td>79.12</td><td>79.66</td><td>79.45</td><td>81.16</td><td class="drop">-0.56</td></tr>
+        <tr><td rowspan="2">Flowers102</td><td>Rob.</td><td>1.14</td><td>0.54</td><td>21.94</td><td>23.43</td><td>17.14</td><td>1.52</td><td>7.16</td><td>7.29</td><td>39.14</td><td>45.55</td><td class="best">54.59</td><td class="gain">+53.45</td></tr>
+        <tr><td>Acc.</td><td>65.46</td><td>53.37</td><td>36.80</td><td>37.00</td><td>47.98</td><td>64.62</td><td>62.66</td><td>58.22</td><td>64.16</td><td>63.14</td><td>64.16</td><td class="drop">-1.30</td></tr>
+        <tr><td rowspan="2">Food101</td><td>Rob.</td><td>0.70</td><td>0.42</td><td>13.90</td><td>18.57</td><td>11.65</td><td>1.20</td><td>13.12</td><td>8.03</td><td>57.84</td><td>62.00</td><td class="best">65.39</td><td class="gain">+64.69</td></tr>
+        <tr><td>Acc.</td><td>83.88</td><td>64.86</td><td>29.98</td><td>36.61</td><td>55.31</td><td>83.44</td><td>75.81</td><td>80.30</td><td>82.18</td><td>81.06</td><td>82.13</td><td class="drop">-1.75</td></tr>
+        <tr><td rowspan="2">PCAM</td><td>Rob.</td><td>0.08</td><td>1.11</td><td>48.24</td><td>46.18</td><td>16.23</td><td>0.41</td><td>4.97</td><td>44.74</td><td>52.85</td><td>62.44</td><td class="best">69.99</td><td class="gain">+69.91</td></tr>
+        <tr><td>Acc.</td><td>52.02</td><td>47.21</td><td>49.96</td><td>50.03</td><td>52.54</td><td>52.73</td><td>52.49</td><td>50.38</td><td>52.73</td><td>53.46</td><td>54.41</td><td class="gain">+2.39</td></tr>
+        <tr style="background-color: #f0f7ff;">
+          <td rowspan="2"><b>Avg. (16)</b></td><td>Rob.</td>
+          <td>2.70</td><td>2.91</td><td>26.54</td><td>28.76</td><td>20.00</td><td>3.86</td><td>12.01</td><td>13.81</td><td>39.17</td><td>46.04</td><td class="best">51.68</td><td class="gain">+48.98</td>
+        </tr>
+        <tr style="background-color: #f0f7ff;">
+          <td>Acc.</td>
+          <td>61.51</td><td>55.80</td><td>40.25</td><td>42.30</td><td>51.02</td><td>61.61</td><td>57.35</td><td>56.62</td><td>59.75</td><td>59.60</td><td>60.21</td><td class="drop">-1.30</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+
+    <p style="color:#666; font-size: 0.9em; margin-top: 0.8rem;">
+      Eight of the 16 datasets shown. <b>SCC</b> outperforms every prior test-time defense on every dataset in adversarial accuracy while preserving clean accuracy (–1.30 pp on average versus CLIP). The full table covering all 16 datasets and stronger attacks (ε = 4/255, CW, AutoAttack, PGD-100) is in the paper.
+    </p>
+  </div>
+</section>
+
+
+<!-- =============================================================
+     MEDICAL — Table 3
+     ============================================================= -->
+<section class="section" style="background-color:#fafafa;">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Medical benchmarks (Table 3)</h2>
+    <p class="has-text-centered" style="color:#666; margin-bottom: 1rem;">
+      Adversarial robustness on 6 medical datasets under PGD-10
+      (<span style="font-family: serif;">&epsilon;<sub>a</sub> = 1/255</span>).
+      SCC is a drop-in replacement for the test-time stage and works for both <b>CLIP</b> and <b>BiomedCLIP</b> backbones.
+    </p>
+    <div style="overflow-x: auto;">
+    <table class="table is-striped is-fullwidth compact has-text-centered">
+      <thead>
+        <tr>
+          <th>Backbone</th><th>Method</th>
+          <th>BUSI</th><th>BTMRI</th><th>CHMNIST</th><th>COVID-19</th><th>DermaMNIST</th><th>KneeXray</th>
+          <th>Avg. Rob.</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td rowspan="3">CLIP</td>
+            <td>CLIP</td><td>0.00</td><td>0.00</td><td>0.00</td><td>0.13</td><td>0.02</td><td>0.00</td><td>0.02</td></tr>
+        <tr><td>TTC</td><td>11.67</td><td>8.93</td><td>2.20</td><td><b>7.51</b></td><td>9.11</td><td>7.68</td><td>7.38</td></tr>
+        <tr><td>SCC</td><td class="best">23.85</td><td class="best">16.19</td><td class="best">9.12</td><td>7.30</td><td class="best">12.40</td><td class="best">11.08</td><td class="best">13.32</td></tr>
+        <tr><td rowspan="3">BiomedCLIP</td>
+            <td>BiomedCLIP</td><td>0.00</td><td>0.49</td><td>0.00</td><td>2.72</td><td>0.00</td><td>0.00</td><td>0.08</td></tr>
+        <tr><td>TTC</td><td>7.95</td><td>22.20</td><td>2.80</td><td>18.36</td><td>4.91</td><td>7.51</td><td>10.62</td></tr>
+        <tr><td>SCC</td><td class="best">31.92</td><td class="best">48.93</td><td class="best">16.56</td><td class="best">57.58</td><td class="best">20.64</td><td class="best">28.35</td><td class="best">34.00</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p style="color:#666; font-size: 0.9em; margin-top: 0.8rem;">
+      On BiomedCLIP, SCC raises average robustness from <b>0.08% → 34.00%</b> (a <span class="gain">+23.38 pp</span> improvement over TTC), with clean accuracy preserved at 44.63%.
+    </p>
+  </div>
+</section>
+
+
+<!-- =============================================================
+     EFFICIENCY — Table 4
+     ============================================================= -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Efficiency (Table 4)</h2>
+    <p class="has-text-centered" style="color:#666;">
+      Per-image runtime and robustness on DTD. SCC is <b>30× faster than R-TPT</b> while delivering higher robust accuracy.
+    </p>
+    <div style="max-width: 480px; margin: 0 auto;">
+    <table class="table is-fullwidth has-text-centered">
+      <thead><tr><th>Method</th><th>Time / image</th><th>Robust Acc.</th></tr></thead>
+      <tbody>
+        <tr><td>R-TPT (64 views)</td><td>0.37 s</td><td>32.8</td></tr>
+        <tr><td>TTC</td><td>0.012 s</td><td>27.4</td></tr>
+        <tr><td><b>SCC (ours)</b></td><td>0.0125 s</td><td class="best">34.6</td></tr>
+      </tbody>
+    </table>
     </div>
   </div>
 </section>
 
 
+<!-- =============================================================
+     ABLATION
+     ============================================================= -->
 <section class="section" style="background-color:#fafafa;">
   <div class="container is-max-desktop">
-    <h2 class="title is-3 has-text-centered">Selected results</h2>
-    <div class="content">
-      <p class="has-text-centered" style="color:#666;">Robust accuracy under PGD-10 attack (ε = 1/255). Higher is better.</p>
-      <div style="overflow-x: auto;">
-        <table class="table is-striped is-fullwidth">
-          <thead>
-            <tr>
-              <th>Setting</th>
-              <th>Backbone</th>
-              <th>Baseline</th>
-              <th>TTC</th>
-              <th><b>SCC (ours)</b></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td>CIFAR-10</td><td>CLIP ViT-B/32</td><td>—</td><td>39.19</td><td><b>59.37</b></td></tr>
-            <tr><td>VQA-RAD</td><td>BiomedCLIP</td><td>42.23</td><td>47.41</td><td><b>49.80</b></td></tr>
-            <tr><td>SLAKE</td><td>BiomedCLIP</td><td>34.34</td><td>49.96</td><td><b>53.43</b></td></tr>
-            <tr><td>Flickr30k I→T@1</td><td>CLIP</td><td>0.12</td><td>8.16</td><td><b>42.62</b></td></tr>
-            <tr><td>Flickr30k T→I@1</td><td>CLIP</td><td>0.16</td><td>7.02</td><td><b>43.06</b></td></tr>
-          </tbody>
-        </table>
-      </div>
-      <p style="color:#666; font-size: 0.9em;">Numbers in the CIFAR-10 row come from the public reference configuration in <code>run_clip.sh</code>; remaining rows are from the paper / rebuttal. Refer to the manuscript for the full 22-benchmark suite.</p>
-    </div>
+    <h2 class="title is-3 has-text-centered">Ablation: both modules matter</h2>
+    <img src="./static/images/ablation.png" alt="Ablation of semantic and spatial consistency" style="width: 100%; max-width: 1000px; margin: 0 auto; display: block;"/>
+    <p class="has-text-centered" style="margin-top: 0.6rem; color:#666; font-size: 0.95em;">
+      Removing either semantic (sec) or spatial (spa) consistency degrades performance; combining both yields the best robustness. Removing both collapses robustness by 12.5 pp on average across 16 datasets.
+    </p>
   </div>
 </section>
 
