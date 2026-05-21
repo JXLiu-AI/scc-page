@@ -96,10 +96,7 @@
 <section class="hero teaser">
   <div class="container is-max-desktop">
     <div class="hero-body">
-      <img src="./static/images/fig1.png" alt="SCC teaser: counterattack drift and SCC recovery" style="width: 100%; max-width: 760px; margin: 0 auto; display: block;"/>
-      <h2 class="subtitle has-text-centered" style="margin-top: 1rem;">
-        During counterattack, embeddings drift within the adversarial space and fall into hard-negative traps. <b>SCC</b> leverages cross-modal <b>semantic</b> and <b>spatial</b> consistency to push them away from hard samples and back toward the correct class space.
-      </h2>
+      <img src="./static/images/fig1.png" alt="SCC teaser" style="width: 100%; max-width: 760px; margin: 0 auto; display: block;"/>
     </div>
   </div>
 </section>
@@ -129,30 +126,10 @@
 
 <section class="section" style="background-color:#fafafa;">
   <div class="container is-max-desktop">
-    <h2 class="title is-3 has-text-centered">Method overview</h2>
+    <h2 class="title is-3 has-text-centered">Method</h2>
     <div class="columns is-centered">
       <div class="column">
-        <img src="./static/images/method.png" alt="SCC method comparison with R-TPT and TTC" style="width: 100%; max-width: 1000px; margin: 0 auto; display: block;"/>
-        <p class="has-text-centered" style="margin-top: 0.6rem; color:#666; font-size: 0.95em;">
-          Test-time defense paradigms on CLIP. (a) R-TPT adapts text prompts online but still suffers from adversarial perturbations. (b) TTC repairs adversarial inputs but remains sensitive to view variance and hard negatives. (c) SCC enforces semantic and spatial consistency, yielding more stable recovery.
-        </p>
-      </div>
-    </div>
-
-    <div class="columns is-centered" style="margin-top: 1.5rem;">
-      <div class="column is-half">
-        <h3 class="title is-5">Semantic consistency</h3>
-        <p>
-          A short counterattack warm-up produces a soft pseudo-label
-          <span style="font-family: serif;"><i>t</i><sub>soft</sub> = &sum;<sub>k</sub> p<sub>k</sub> t<sub>k</sub></span>
-          that retains the full prediction distribution. A confidence-weighted cross-modal alignment term then pulls the embedding back toward the correct class space and suppresses hard-negative drift.
-        </p>
-      </div>
-      <div class="column is-half">
-        <h3 class="title is-5">Spatial consistency</h3>
-        <p>
-          A handful of cheap augmented views (horizontal flip + low-variance Gaussian noise) are aggregated to produce a stable prediction, mitigating the view fragility exposed in our analysis. The same corrective perturbation is reused across views, so the additional cost over TTC is marginal.
-        </p>
+        <img src="./static/images/method.png" alt="SCC method" style="width: 100%; max-width: 1000px; margin: 0 auto; display: block;"/>
       </div>
     </div>
   </div>
@@ -293,11 +270,8 @@
      ============================================================= -->
 <section class="section" style="background-color:#fafafa;">
   <div class="container is-max-desktop">
-    <h2 class="title is-3 has-text-centered">Ablation: both modules matter</h2>
-    <img src="./static/images/ablation.png" alt="Ablation of semantic and spatial consistency" style="width: 100%; max-width: 1000px; margin: 0 auto; display: block;"/>
-    <p class="has-text-centered" style="margin-top: 0.6rem; color:#666; font-size: 0.95em;">
-      Removing either semantic (sec) or spatial (spa) consistency degrades performance; combining both yields the best robustness. Removing both collapses robustness by 12.5 pp on average across 16 datasets.
-    </p>
+    <h2 class="title is-3 has-text-centered">Ablation</h2>
+    <img src="./static/images/ablation.png" alt="Ablation" style="width: 100%; max-width: 1000px; margin: 0 auto; display: block;"/>
   </div>
 </section>
 
