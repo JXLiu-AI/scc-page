@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="SCC is a training-free test-time defense that restores adversarial robustness of CLIP-style vision-language models via semantic and spatial consistency.">
+  <meta name="keywords" content="SCC, Self-Calibrated Consistency, Adversarial Robustness, CLIP, Vision-Language Models, Test-time Defense, ICML 2026">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SCC: Self-Calibrated Consistency for Adversarial Robustness in VLMs</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/favicon.svg">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+</head>
+<body>
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-2 publication-title">Self-Calibrated Consistency can Fight Back for Adversarial Robustness in Vision-Language Models</h1>
+          <h2 class="subtitle has-text-centered" style="color:#666;">ICML 2026</h2>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">Jiaxiang Liu,</span>
+            <span class="author-block">Jiawei Du,</span>
+            <span class="author-block">Xiao Liu,</span>
+            <span class="author-block">Shangyang Li,</span>
+            <span class="author-block">Songchen Ma,</span>
+            <span class="author-block">Changshuo Wang,</span>
+            <span class="author-block">Prayag Tiwari,</span>
+            <span class="author-block">Mingkun Xu</span>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- arXiv -->
+              <span class="link-block">
+                <a href="https://arxiv.org/abs/2510.22785"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon"><i class="ai ai-arxiv"></i></span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              <!-- PDF -->
+              <span class="link-block">
+                <a href="https://arxiv.org/pdf/2510.22785"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon"><i class="fas fa-file-pdf"></i></span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <!-- Code -->
+              <span class="link-block">
+                <a href="https://github.com/JXLiu-AI/SCC"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon"><i class="fab fa-github"></i></span>
+                  <span>Code (coming soon)</span>
+                </a>
+              </span>
+              <!-- BibTeX (anchor) -->
+              <span class="link-block">
+                <a href="#BibTeX"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon"><i class="fas fa-quote-left"></i></span>
+                  <span>BibTeX</span>
+                </a>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <img src="./static/images/fig1.png" alt="SCC teaser: counterattack drift and SCC recovery" style="width: 100%; max-width: 720px; margin: 0 auto; display: block;"/>
+      <h2 class="subtitle has-text-centered" style="margin-top: 1rem;">
+        <span class="dnerf">During counterattack, embeddings drift within the adversarial space and fall into hard-negative traps. <b>SCC</b> leverages cross-modal semantic and spatial consistency to push them away from hard samples and back toward the correct class space.
+      </h2>
+    </div>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            Pre-trained vision–language models (VLMs) such as CLIP have demonstrated strong zero-shot capabilities across diverse domains, yet remain highly vulnerable to adversarial perturbations that disrupt image–text alignment and compromise reliability. Existing defenses typically rely on adversarial fine-tuning with labeled data, limiting their applicability in zero-shot settings.
+          </p>
+          <p>
+            In this work, we identify two key weaknesses of current CLIP adversarial attacks—lack of semantic guidance and vulnerability to view variations—collectively termed <i>semantic</i> and <i>viewpoint fragility</i>. To address these challenges, we propose <b>Self-Calibrated Consistency (SCC)</b>, an effective test-time defense. SCC consists of two complementary modules: <i>Semantic consistency</i>, which leverages soft pseudo-labels from a counterattack warm-up and multi-view predictions to regularize cross-modal alignment and separate target embeddings from confusable negatives; and <i>Spatial consistency</i>, aligning perturbed visual predictions via augmented views to stabilize inference under adversarial perturbations.
+          </p>
+          <p>
+            Together, these modules form a plug-and-play inference strategy. Extensive experiments on <b>22 benchmarks</b> under diverse attack settings show that SCC consistently improves the zero-shot robustness of CLIP while maintaining accuracy, and can be seamlessly integrated with other VLMs for further gains. These findings highlight the great potential of establishing an adversarially robust paradigm from CLIP, with implications extending to broader VLMs such as <b>BiomedCLIP</b>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section" style="background-color:#fafafa;">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Method overview</h2>
+    <div class="columns is-centered">
+      <div class="column">
+        <img src="./static/images/method.png" alt="SCC method comparison with R-TPT and TTC" style="width: 100%; max-width: 980px; margin: 0 auto; display: block;"/>
+        <p class="has-text-centered" style="margin-top: 0.6rem; color:#666;">
+          Test-time defense paradigms on CLIP. (a) R-TPT adapts text prompts online but still suffers from adversarial perturbations. (b) TTC repairs adversarial inputs but remains sensitive to view variance and hard negatives. (c) SCC enforces semantic and spatial consistency, yielding more stable recovery.
+        </p>
+      </div>
+    </div>
+
+    <div class="columns is-centered" style="margin-top: 1.5rem;">
+      <div class="column is-half">
+        <h3 class="title is-5">Semantic consistency</h3>
+        <p>
+          A short counterattack warm-up produces a soft pseudo-label <span style="font-family: serif;"><i>t</i><sub>soft</sub> = &sum;<sub>k</sub> p<sub>k</sub> t<sub>k</sub></span> that retains the full prediction distribution. A confidence-weighted cross-modal alignment term then pulls the embedding back toward the correct class space and suppresses hard-negative drift.
+        </p>
+      </div>
+      <div class="column is-half">
+        <h3 class="title is-5">Spatial consistency</h3>
+        <p>
+          A handful of cheap augmented views (horizontal flip + low-variance Gaussian noise) are aggregated to produce a stable prediction, mitigating the view fragility exposed in our analysis. The same corrective perturbation is reused across views, so the additional cost over TTC is marginal.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Highlights</h2>
+    <div class="content">
+      <ul>
+        <li><b>Training-free, plug-and-play.</b> SCC is a pure test-time defense — no adversarial fine-tuning, no labelled data, no model surgery.</li>
+        <li><b>Large robustness gains under PGD-10.</b> On CIFAR-10 with the published configuration, SCC lifts adversarial accuracy from <b>39.19%</b> to <b>59.37%</b> (+20.18 pp) while clean accuracy stays at 82.10%.</li>
+        <li><b>Consistent improvement across 22 benchmarks.</b> SCC outperforms prior test-time defenses (R-TPT, TTC) across PGD, CW and AutoAttack, both on stock CLIP and adversarially fine-tuned variants (TeCoA, FARE).</li>
+        <li><b>Generalises beyond CLIP.</b> Drop-in integration with <b>BiomedCLIP</b> yields strong robustness on medical VQA (VQA-RAD, SLAKE) and cross-modal retrieval (Flickr30k).</li>
+        <li><b>Negligible overhead.</b> ~0.013 s / image — within 10% of TTC's runtime cost.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+
+<section class="section" style="background-color:#fafafa;">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Selected results</h2>
+    <div class="content">
+      <p class="has-text-centered" style="color:#666;">Robust accuracy under PGD-10 attack (ε = 1/255). Higher is better.</p>
+      <div style="overflow-x: auto;">
+        <table class="table is-striped is-fullwidth">
+          <thead>
+            <tr>
+              <th>Setting</th>
+              <th>Backbone</th>
+              <th>Baseline</th>
+              <th>TTC</th>
+              <th><b>SCC (ours)</b></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>CIFAR-10</td><td>CLIP ViT-B/32</td><td>—</td><td>39.19</td><td><b>59.37</b></td></tr>
+            <tr><td>VQA-RAD</td><td>BiomedCLIP</td><td>42.23</td><td>47.41</td><td><b>49.80</b></td></tr>
+            <tr><td>SLAKE</td><td>BiomedCLIP</td><td>34.34</td><td>49.96</td><td><b>53.43</b></td></tr>
+            <tr><td>Flickr30k I→T@1</td><td>CLIP</td><td>0.12</td><td>8.16</td><td><b>42.62</b></td></tr>
+            <tr><td>Flickr30k T→I@1</td><td>CLIP</td><td>0.16</td><td>7.02</td><td><b>43.06</b></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="color:#666; font-size: 0.9em;">Numbers in the CIFAR-10 row come from the public reference configuration in <code>run_clip.sh</code>; remaining rows are from the paper / rebuttal. Refer to the manuscript for the full 22-benchmark suite.</p>
+    </div>
+  </div>
+</section>
+
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title is-3">BibTeX</h2>
+    <pre><code>@inproceedings{liu2026scc,
+  title     = {Self-Calibrated Consistency can Fight Back for Adversarial Robustness in Vision-Language Models},
+  author    = {Liu, Jiaxiang and Du, Jiawei and Liu, Xiao and Li, Shangyang and Ma, Songchen and Wang, Changshuo and Tiwari, Prayag and Xu, Mingkun},
+  booktitle = {International Conference on Machine Learning (ICML)},
+  year      = {2026}
+}</code></pre>
+  </div>
+</section>
+
+
+<footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content has-text-centered">
+          <p>
+            Page source adapted from the <a href="https://github.com/nerfies/nerfies.github.io">Nerfies</a> template, licensed under
+            <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>.
+          </p>
+          <p>
+            <a href="https://github.com/JXLiu-AI/SCC">Code repository</a> · arXiv: <a href="https://arxiv.org/abs/2510.22785">2510.22785</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
