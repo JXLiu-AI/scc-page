@@ -96,7 +96,10 @@
 <section class="hero teaser">
   <div class="container is-max-desktop">
     <div class="hero-body">
-      <img src="./static/images/fig1.png" alt="SCC teaser" style="width: 100%; max-width: 760px; margin: 0 auto; display: block;"/>
+      <img src="./static/images/fig1.png" alt="SCC concept" style="width: 100%; max-width: 760px; margin: 0 auto; display: block;"/>
+      <p class="has-text-centered" style="margin-top: 0.8rem; color:#555; font-size: 0.95em; max-width: 760px; margin-left:auto; margin-right:auto;">
+        Left: under adversarial counterattack, an embedding drifts toward hard-negative classes (e.g. Dog → Wolf). Right: <b>SCC</b> uses <span style="color:#d62728;">semantic consistency</span> and <span style="color:#1f77b4;">spatial consistency</span> together to pull it back into the correct class region.
+      </p>
     </div>
   </div>
 </section>
@@ -129,7 +132,10 @@
     <h2 class="title is-3 has-text-centered">Method</h2>
     <div class="columns is-centered">
       <div class="column">
-        <img src="./static/images/method.png" alt="SCC method" style="width: 100%; max-width: 1000px; margin: 0 auto; display: block;"/>
+        <img src="./static/images/method.png" alt="Test-time defense paradigms" style="width: 100%; max-width: 1000px; margin: 0 auto; display: block;"/>
+        <p class="has-text-centered" style="margin-top: 0.8rem; color:#555; font-size: 0.95em;">
+          Three test-time defenses, side by side. <b>R-TPT</b> updates text prompts online; <b>TTC</b> applies a corrective perturbation to the input; <b>SCC</b> adds a semantic pseudo-label and aggregates several views, giving a stable and accurate recovery.
+        </p>
       </div>
     </div>
   </div>
@@ -271,7 +277,10 @@
 <section class="section" style="background-color:#fafafa;">
   <div class="container is-max-desktop">
     <h2 class="title is-3 has-text-centered">Ablation</h2>
-    <img src="./static/images/ablation.png" alt="Ablation" style="width: 100%; max-width: 1000px; margin: 0 auto; display: block;"/>
+    <img src="./static/images/ablation.png" alt="Ablation across datasets" style="width: 100%; max-width: 1000px; margin: 0 auto; display: block;"/>
+    <p class="has-text-centered" style="margin-top: 0.8rem; color:#555; font-size: 0.95em;">
+      Robust accuracy per dataset for the four combinations of <i>sec</i> (semantic) and <i>spa</i> (spatial) consistency. Turning either module off causes a noticeable drop; turning both off collapses robustness — confirming the two components are complementary, not redundant.
+    </p>
   </div>
 </section>
 
